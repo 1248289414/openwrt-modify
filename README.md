@@ -12,7 +12,11 @@
 
 打包：
 
-	./modify.sh c xxx.bin
+	./modify.sh c
+	
+清空环境：
+
+	./modify.sh C
 
 其中：
 	mksquashfs4

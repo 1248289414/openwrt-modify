@@ -2,6 +2,7 @@
 dir=$("pwd")
 dir1=$dir/squashfs-root
 dir2=$dir/squashfs-root/usr/lib/opkg/info
+dir3=$dir/squashfs-root/usr/lib/opkg/status
 if [ -z $1 ] ; then
 	ls $dir2 | grep .list
 	echo "===================================================="
@@ -26,6 +27,7 @@ for name in $@
 				echo $LINE
 				sudo rm -rf $dir1$LINE
 			done
+		sudo sed -i "/Package: $name/,+6d" $dir3
 		sudo rm -rf $dir2/$name\.conffiles
 		sudo rm -rf $dir2/$name\.list
 		sudo rm -rf $dir2/$name\.control
