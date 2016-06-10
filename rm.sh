@@ -1,10 +1,9 @@
 #!/bin/sh
-name=$1
 dir=$("pwd")
 dir1=$dir/squashfs-root
 dir2=$dir/squashfs-root/usr/lib/opkg/info
-if [ -z $name ] ; then
-	ls $dir/squashfs-root/usr/lib/opkg/info/ | grep .list
+if [ -z $1 ] ; then
+	ls $dir2 | grep .list
 	echo "===================================================="
 	echo "===================================================="
 	echo "Select the package which would you want to delete!!!"
@@ -13,14 +12,23 @@ if [ -z $name ] ; then
 	echo "===================================================="
 	echo "===================================================="
 	exit 0
-else
-	[ ! -f $dir2/$name\.list ] && echo "Not found!" && exit 0
-	sudo rm $dir2/$name\.control
-	cat /home/yelanghua/OPENWRT-kitchen/squashfs-root/usr/lib/opkg/info/dnsmasq.list | while read LINE
-		do
-			echo $LINE
-			sudo rm -r $dir1$LINE
-		done
-	sudo rm $dir2/$name\.list
-	echo "DONE!!!"
 fi
+for name in $@
+	do
+		[ ! -f $dir2/$name\.list ] && echo "Not found $name!!!" && continue
+		cat $dir2/$name\.list | while read LINE
+			do
+				echo $LINE
+				sudo rm -rf $dir1$LINE
+			done
+		[ -f $dir2/$name\.conffiles ] && cat $dir2/$name\.conffiles | while read LINE
+			do
+				echo $LINE
+				sudo rm -rf $dir1$LINE
+			done
+		sudo rm -rf $dir2/$name\.conffiles
+		sudo rm -rf $dir2/$name\.list
+		sudo rm -rf $dir2/$name\.control
+		sudo rm -rf $dir2/$name\.prerm
+		echo "DONE!!!"
+done
