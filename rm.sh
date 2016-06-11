@@ -27,7 +27,7 @@ for name in $@
 				echo $LINE
 				sudo rm -rf $dir1$LINE
 			done
-		sudo sed -i "/Package: $name/,+6d" $dir3
+		sudo sed -i "/Package: $name/,/^$/d" $dir3
 		sudo rm -rf $dir2/$name\.conffiles
 		sudo rm -rf $dir2/$name\.list
 		sudo rm -rf $dir2/$name\.control

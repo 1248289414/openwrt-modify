@@ -31,11 +31,13 @@ sudo rm -rf ./kernel.bin
 ;;
 *)
 echo 'run
-"modify-firmware.sh extract firmware.bin"
+"modify.sh extract firmware.bin"
 You will find file "kernel.bin" and folder "squashfs-root".
 Modify "squashfs-root" as you like,after everything is done,run
-"modify-firmware.sh create newfirmware.bin"
-And you will get a modified firmware named newfirmware.bin.
+"modify.sh create newfirmware.bin"
+And you will get a modified firmware named newfirmware.bin.after your work,run
+"modify.sh clean"
+This command will delete "kernel.bin" and "squashfs-root"
 '
 ;;
 esac
